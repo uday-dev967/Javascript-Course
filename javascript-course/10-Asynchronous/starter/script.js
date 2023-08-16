@@ -149,7 +149,8 @@ const getCountryData = function (country) {
 getCountryData('usa');
 */
 
-// chaning
+// chaining Promises
+/*
 const getCountryAndNeighbour = function (country) {
   fetch(`https://restcountries.com/v2/name/${country}`)
     .then(response => response.json())
@@ -167,3 +168,51 @@ const getCountryAndNeighbour = function (country) {
     .then(data => renderCountry(data, 'neighbour'));
 };
 getCountryAndNeighbour('usa');
+*/
+
+// Handling Rejected Promises
+// const getCountryAndNeighbour = function (country) {
+//   fetch(`https://restcountries.com/v2/name/${country}`)
+//     .then(
+//       response => response.json(),
+//       err => alert(err)
+//     )
+//     .then(data => {
+//       renderCountry(data[0]);
+//       const neighbour = data[0].borders?.[0];
+//       console.log(neighbour);
+//       if (!neighbour) return;
+//       return fetch(`https://restcountries.com/v2/alpha/${neighbour}`);
+//     })
+//     .then(
+//       response => response.json(),
+//       err => alert(err)
+//     )
+//     .then(data => renderCountry(data, 'neighbour'));
+// };
+
+// btn.addEventListener('click', function () {
+//   getCountryAndNeighbour('usa');
+// });
+
+// or
+// method 2 catch
+
+const getCountryAndNeighbour = function (country) {
+  fetch(`https://restcountries.com/v2/name/${country}`)
+    .then(response => response.json())
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders?.[0];
+      console.log(neighbour);
+      if (!neighbour) return;
+      return fetch(`https://restcountries.com/v2/alpha/${neighbour}`);
+    })
+    .then(response => response.json())
+    .then(data => renderCountry(data, 'neighbour'))
+    .catch(e => alert(e.message));
+};
+
+btn.addEventListener('click', function () {
+  getCountryAndNeighbour('usa');
+});
